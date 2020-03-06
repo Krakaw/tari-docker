@@ -11,7 +11,7 @@ services:
       - "$PWD/config/tor/torrc:/etc/tor/torrc"
       - "$PWD/data/tor:/var/lib/tor"
   tari:
-    image: tari_base_node:latest
+    image: quay.io/tarilabs/tari_base_node:latest
     networks:
       - tarinetwork
     depends_on:
