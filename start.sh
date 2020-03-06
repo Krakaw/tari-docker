@@ -2,7 +2,7 @@
 
 check_password() {
   password=$( grep -oP  "^tor_control_auth\s*=\s*\"password=(.*?)\"" template_config.toml  | sed -n 's/^.*password=\(.*\)\"/\1/p' )
-  if [ "password" == "${password}" ]; then
+  if [ "mypassword" == "${password}" ]; then
     RED='\033[0;31m'
     NC='\033[0m' # No Color
     echo -e "${RED}You are using the default tor_control_auth password, you should REALLY change this.${NC}"

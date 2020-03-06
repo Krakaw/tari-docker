@@ -137,7 +137,7 @@ transport = "tor"
 tor_control_address = "/ip4/__TOR_CONTAINER_IP__/tcp/9051"
 #tor_control_address = "/ip4/127.0.0.1/tcp/9051"
 # Authentication to use for the tor control server
-tor_control_auth = "password=password" # or "password=xxxxxx"
+tor_control_auth = "password=mypassword" # or "password=xxxxxx"
 # The onion port to use.
 tor_onion_port = 18141
 # The address to which traffic on the node's onion address will be forwarded
