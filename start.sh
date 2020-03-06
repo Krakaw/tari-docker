@@ -11,8 +11,6 @@ check_password() {
 
 check_password
 docker-compose up -d tor
-IPADDRESS=$(docker inspect -f "{{ .NetworkSettings.Networks.tarinetwork.IPAddress }}" $(docker-compose ps -q tor))
-cat template_config.toml | sed "s/__TOR_CONTAINER_IP__/$IPADDRESS/" > data/tari/config.toml
 docker-compose up wait
 
 #Check if we have the run --create_id
