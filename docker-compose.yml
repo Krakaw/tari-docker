@@ -16,6 +16,7 @@ services:
       - tarinetwork
     depends_on:
       - tor
+    working_dir: /root/.tari
     volumes:
       - "$PWD/data/tari:/root/.tari"
   wait:
