@@ -134,7 +134,8 @@ peer_seeds = ["8c196e72cec4e8370c5a0caecc8a6cded4f86f43b1553564f653eceb159cec6f:
 # onion v2, onion v3 and dns addresses.
 transport = "tor"
 # Address of the tor control server
-tor_control_address = "/ip4/__TOR_CONTAINER_IP__/tcp/9051"
+tor_control_address = "/dns4/tor/tcp/9051"
+#tor_control_address = "/ip4/__TOR_CONTAINER_IP__/tcp/9051"
 #tor_control_address = "/ip4/127.0.0.1/tcp/9051"
 # Authentication to use for the tor control server
 tor_control_auth = "password=mypassword" # or "password=xxxxxx"
