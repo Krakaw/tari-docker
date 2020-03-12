@@ -64,5 +64,5 @@ if [ ! -f "data/tari/rincewind/node_id.json" ]; then
   docker-compose run tari --create_id
 else
   echo "Starting Tari base node"
-  docker-compose up tari
+  docker-compose run tari
 fi

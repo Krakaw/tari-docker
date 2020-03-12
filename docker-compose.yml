@@ -12,6 +12,8 @@ services:
       - "$PWD/data/tor:/var/lib/tor"
   tari:
     image: quay.io/tarilabs/tari_base_node:latest
+#    image: quay.io/krakaw/tari_base_node:latest
+#    image: tari_base_node:latest
     networks:
       - tarinetwork
     depends_on:
