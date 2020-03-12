@@ -19,6 +19,12 @@ services:
     working_dir: /root/.tari
     volumes:
       - "$PWD/data/tari:/root/.tari"
+    stdin_open: true
+    tty: true
+  nc:
+    image: subfuzion/netcat
+    networks:
+      - tarinetwork
   wait:
     image: waisbrot/wait
     networks:
