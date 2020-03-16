@@ -96,8 +96,7 @@ network = "rincewind"
 # where this whitelist comes in. It's a list of known Tari nodes that are likely to be around for a long time and that
 # new nodes can use to introduce themselves to the network.
 # peer_seeds = ["public_key1::address1", "public_key2::address2",... ]
-#peer_seeds = ["82d0fbb0f5e3419f311d4c1d7a57a7215e1221687964d82d287c2fac39e1b153::/onion3/kgk5tclng6v2ohbufp3nhhes7f4camb5ukkxyudoph6hzj5ip65dv4yd:18145","8c196e72cec4e8370c5a0caecc8a6cded4f86f43b1553564f653eceb159cec6f::/onion3/stjadvnac2rk45qc3o2bicrueqz6v2437c26gi7vi5cdhumym5wqulid:18145"]
-peer_seeds = ["d44d23b005dcd364776e4cad69ac800b8ab6d6bf12097a5edb8720ce584ed45a::/onion3/3gficjdxzduuxtbyzt3auwwzjv7xlljnonzer5t2aglczrjb54wxadyd:18141", "5edb022af1c21d644dfceeea2fcc7d3fac7a57ab44cf775b9a6f692cb75ed767::/onion3/vjkj44zpriqzrlve2qbiasrluaaxagrb6iuavzaascbujri6gw3rcmyd:18141"]
+peer_seeds = ["5edb022af1c21d644dfceeea2fcc7d3fac7a57ab44cf775b9a6f692cb75ed767::/onion3/vjkj44zpriqzrlve2qbiasrluaaxagrb6iuavzaascbujri6gw3rcmyd:18141", "8c196e72cec4e8370c5a0caecc8a6cded4f86f43b1553564f653eceb159cec6f::/onion3/stjadvnac2rk45qc3o2bicrueqz6v2437c26gi7vi5cdhumym5wqulid:18145", "2e93c460df49d8cfbbf7a06dd9004c25a84f92584f7d0ac5e30bd8e0beee9a43::/onion3/nuuq3e2olck22rudimovhmrdwkmjncxvwdgbvfxhz6myzcnx2j4rssyd:18141"]
 
 # Configure the number of threads to spawn for long-running tasks, like block and transaction validation. A good choice
 # for this value is somewhere between n/2 and n - 1, where n is the number of cores on your machine.
