@@ -11,6 +11,17 @@ check_password() {
   fi
 }
 
+spin() {
+  spinner="/|\\-/|\\-"
+  while :; do
+    for i in $(seq 0 7); do
+      echo -n "${spinner:$i:1}"
+      echo -en "\010"
+      sleep 1
+    done
+  done
+}
+
 fetch_peers() {
   peers_string=$(grep -oP "^\s*peer_seeds\s*=\s*.*" $CONFIG_FILE | sed -n 's/^.*\[\(.*\)\].*$/\1/p' | tr -d '"')
   IFS=', ' read -r -a peer_array <<<"$peers_string"
@@ -23,13 +34,27 @@ fetch_peers() {
   for element in "${peer_array[@]}"; do
     address="$(echo "$element" | cut -f3 -d/ | cut -f1 -d:).onion"
     port="$(echo "$element" | cut -f3 -d/ | cut -f2 -d:)"
-    echo -n "$address:$port"
-    check_peers "$address" "$port" && echo -e "${GREEN} is UP! :)${NC}" || echo -e "${RED} is DOWN! :(${NC}"
+
+    echo -n "$address:$port "
+
+    #Add a spinner
+    spin &
+    SPIN_PID=$!
+    # Kill the spinner on any signal, including our own exit.
+    trap "kill -9 $SPIN_PID 2>&1> /dev/null  || echo Error cleaning up" $(seq 0 15)
+    # Check the peers on tor
+    check_peers "$address" "$port" && echo -e "${GREEN}is UP! :)${NC}" || echo -e "${RED}is DOWN! :(${NC}"
+    # Kill the spinner
+    kill -9 "$SPIN_PID"
+    # Clean up the kill message
+    wait "$SPIN_PID" 2>/dev/null
+    # Unset the trap
+    trap - $(seq 0 15)
   done
 }
 
 check_peers() {
-  docker-compose run nc -w 1 -v -X5 -x tor:9050 "$1" "$2" 2>&1 > /dev/null
+  docker-compose run nc -w 1 -v -X5 -x tor:9050 "$1" "$2" 2>&1 >/dev/null
 }
 
 CHECK_PEERS=1
@@ -49,7 +74,6 @@ while [ "$1" != "" ]; do
   esac
   shift
 done
-
 
 [[ $CHECK_PASSWORD -eq 1 ]] && check_password
 
