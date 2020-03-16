@@ -19,11 +19,12 @@ fetch_peers() {
     echo -e "${RED}You have not set the peer_seeds config. Aborting${NC}"
     exit 1
   fi
-  echo "Checking peers, use -ss to skip: $peers_string"
+  echo "Checking peers, use -ss to skip:"
   for element in "${peer_array[@]}"; do
     address="$(echo "$element" | cut -f3 -d/ | cut -f1 -d:).onion"
     port="$(echo "$element" | cut -f3 -d/ | cut -f2 -d:)"
-    check_peers "$address" "$port" && echo -e "${GREEN}$address:$port is UP! :)${NC}" || echo -e "${RED}$address:$port is DOWN! :(${NC}"
+    echo -n "$address:$port"
+    check_peers "$address" "$port" && echo -e "${GREEN} is UP! :)${NC}" || echo -e "${RED} is DOWN! :(${NC}"
   done
 }
 
