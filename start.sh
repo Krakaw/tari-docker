@@ -77,7 +77,7 @@ done
 
 [[ $CHECK_PASSWORD -eq 1 ]] && check_password
 
-cp "$CONFIG_FILE" data/config.toml
+cp "$CONFIG_FILE" data/tari/config.toml
 docker-compose up -d tor
 docker-compose up wait
 
