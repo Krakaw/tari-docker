@@ -2,9 +2,7 @@ version: "3.5"
 services:
   tari:
     image: quay.io/krakaw/tari-docker:latest
-    working_dir: /root/.tari
-    volumes:
-      - "$PWD/data/tari:/root/.tari"
-      - "$PWD/config/tor/torrc:/etc/tor/torrc"
+#    volumes:
+#      - "$PWD/data/tari:/root/.tari"
     stdin_open: true
     tty: true
