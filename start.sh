@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 CONFIG_FILE=./template_config.toml
 RED='\033[0;31m'
@@ -41,7 +41,7 @@ fetch_peers() {
     spin &
     SPIN_PID=$!
     # Kill the spinner on any signal, including our own exit.
-    trap "kill -9 $SPIN_PID 2>&1> /dev/null  || echo Error cleaning up" $(seq 0 15)
+    trap "kill -9 $SPIN_PID 2>&1> /dev/null ;" SIGTERM #$(seq 0 15)
     # Check the peers on tor
     check_peers "$address" "$port" && echo -e "${GREEN}is UP! :)${NC}" || echo -e "${RED}is DOWN! :(${NC}"
     # Kill the spinner
@@ -52,6 +52,54 @@ fetch_peers() {
     trap - $(seq 0 15)
   done
 }
+
+parse_config(){
+    [[ -f $1 ]] || { echo "$1 is not a file." >&2;return 1;}
+    if [[ -n $2 ]]
+    then
+        local -n config_array=$2
+    else
+        local -n config_array=config
+    fi
+    declare -Ag ${!config_array} || return 1
+    local line key value section_regex entry_regex
+    section_regex="^[[:blank:]]*\[([[:alpha:]_][[:alnum:]_]*)\][[:blank:]]*(#.*)?$"
+    entry_regex="^[[:blank:]]*([[:alpha:]_][[:alnum:]_]*)[[:blank:]]*=[[:blank:]]*('[^']+'|\"[^\"]+\"|[^#[:blank:]]+)[[:blank:]]*(#.*)*$"
+    while read -r line
+    do
+        [[ -n $line ]] || continue
+        [[ $line =~ $section_regex ]] && {
+            local -n config_array=${BASH_REMATCH[1]}
+            declare -Ag ${!config_array} || return 1
+            continue
+        }
+        [[ $line =~ $entry_regex ]] || continue
+        key=${BASH_REMATCH[1]}
+        value=${BASH_REMATCH[2]#[\'\"]} # strip quotes
+        value=${value%[\'\"]}
+        config_array["${key}"]="${value}"
+    done < "$1"
+}
+
+# Usage: parse_config_vars <file>
+# No arrays, just read variables individually.
+# Preexisting variables will be overwritten.
+
+parse_config_vars(){
+    [[ -f $1 ]] || { echo "$1 is not a file." >&2;return 1;}
+    local line key value entry_regex
+    entry_regex="^[[:blank:]]*([[:alpha:]_][[:alnum:]_]*)[[:blank:]]*=[[:blank:]]*('[^']+'|\"[^\"]+\"|[^#[:blank:]]+)[[:blank:]]*(#.*)*$"
+    while read -r line
+    do
+        [[ -n $line ]] || continue
+        [[ $line =~ $entry_regex ]] || continue
+        key=${BASH_REMATCH[1]}
+        value=${BASH_REMATCH[2]#[\'\"]} # strip quotes
+        value=${value%[\'\"]}
+        declare -g "${key}"="${value}"
+    done < "$1"
+}
+
 
 check_peers() {
   docker-compose run nc -w 1 -v -X5 -x tor:9050 "$1" "$2" 2>&1 >/dev/null
@@ -83,10 +131,10 @@ docker-compose up wait
 
 [[ $CHECK_PEERS -eq 1 ]] && fetch_peers
 
-#Check if we have the run --create_id
+#Check if we have the run --create-id
 if [ ! -f "data/tari/rincewind/node_id.json" ]; then
   echo "This is the first run, execute create_id"
-  docker-compose run tari --create_id
+  docker-compose run tari  tari_base_node --create-id
 else
   echo "Starting Tari base node"
   docker-compose run tari

@@ -1,10 +1,10 @@
-User tor
-HardwareAccel 1
-Log notice stdout
-SocksPort 0.0.0.0:9050
-DataDirectory /var/lib/tor
-ControlPort 0.0.0.0:9051
-ClientOnly 1
+SocksPort 127.0.0.1:9050
+
+# Control Port Enable
+ControlPort 127.0.0.1:9051
 CookieAuthentication 0
-HashedControlPassword "16:EF7490B30793C2D3604AED4BDD3A5D184901CC9BAAAAAABFFAFA87F70B"
+
+ClientOnly 1
 ClientUseIPv6 1
+
+SafeLogging 0
