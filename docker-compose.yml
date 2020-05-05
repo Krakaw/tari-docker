@@ -1,40 +1,10 @@
 version: "3.5"
 services:
-  tor:
-    image: peterdavehello/tor-socks-proxy
-    networks:
-      - tarinetwork
-    ports:
-      - "9050:9050"
-      - "9051:9051"
-    volumes:
-      - "$PWD/config/tor/torrc:/etc/tor/torrc"
-      - "$PWD/data/tor:/var/lib/tor"
   tari:
-          #image: quay.io/tarilabs/tari_base_node:latest
-    image: quay.io/krakaw/tari_base_node:latest
-#image: quay.io/krakaw/tari_base_node:krakaw-add-dependency-build-cache
-#    image: tari_base_node:latest
-    networks:
-      - tarinetwork
-    depends_on:
-      - tor
+    image: quay.io/krakaw/tari-docker:latest
     working_dir: /root/.tari
     volumes:
       - "$PWD/data/tari:/root/.tari"
+      - "$PWD/config/tor/torrc:/etc/tor/torrc"
     stdin_open: true
     tty: true
-  nc:
-    image: subfuzion/netcat
-    networks:
-      - tarinetwork
-  wait:
-    image: waisbrot/wait
-    networks:
-      - tarinetwork
-    environment:
-      - TARGETS=tor:9050
-
-networks:
-  tarinetwork:
-    name: tarinetwork
